@@ -15,7 +15,12 @@
     <div id="app">
       <div class="container">
         <div class="row mx-auto text-center my-4">
-          <p>{{message}}</p>
+          <p class="mr-3">カウント数：{{count}}</p>
+          <button @click="count += 1" class="btn btn-primary">+1する</button>
+          <button @click="count -= 1" class="btn btn-danger ml-3">-1する</button>
+        </div>
+        <div class="row mx-auto text-center my-4">
+          <p>{{lessThanThree}}</p>
         </div>
       </div>
     </div>
