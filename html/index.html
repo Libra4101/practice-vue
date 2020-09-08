@@ -22,6 +22,12 @@
         <div class="row mx-auto text-center my-4">
           <p>{{lessThanThree}}</p>
         </div>
+        <div class="row mx-auto text-center my-4">
+          <ul>
+            <li v-for="fruit in fruits">{{fruit}}</li>
+          </ul>
+        </div>
+        <p id="fruitList" v-on:mouseover="joinFruits">{{fruits}}</p>
       </div>
     </div>
     <script src="../js/index.js"></script>
