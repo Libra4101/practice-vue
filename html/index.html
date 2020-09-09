@@ -23,7 +23,7 @@
           <p>{{lessThanThree}}</p>
         </div>
         <div class="row mx-auto text-center my-4">
-          <ul>
+          <ul v-if="count > 5">
             <li v-for="fruit in fruits">{{fruit}}</li>
           </ul>
         </div>
