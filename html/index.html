@@ -26,8 +26,8 @@
           <ul v-if="count > 5">
             <li v-for="fruit in fruits">{{fruit}}</li>
           </ul>
+          <p id="fruitList" v-else="count < 5" v-on:mouseover="joinFruits">{{fruits}}</p>
         </div>
-        <p id="fruitList" v-on:mouseover="joinFruits">{{fruits}}</p>
       </div>
     </div>
     <script src="../js/index.js"></script>
