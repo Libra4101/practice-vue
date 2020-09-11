@@ -4,7 +4,8 @@ new Vue({
   data: {
     message: "hello",
     count: 0,
-    fruits: ['りんご', 'バナナ', 'ぶどう']
+    fruits: ['りんご', 'バナナ', 'ぶどう'],
+    books: ['Ruby本', 'Java本', 'JavaScript本']
   },
   computed: {
     lessThanThree: function() {

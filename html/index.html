@@ -28,6 +28,12 @@
           </ul>
           <p id="fruitList" v-else="count < 5" v-on:mouseover="joinFruits">{{fruits}}</p>
         </div>
+        <div class="row mx-auto text-center my-4">
+          <p id="bookList" v-show="count < 5">{{books.join(' ')}}</p>
+          <ul v-show="count > 5">
+            <li v-for="book in books">{{book}}</li>
+          </ul>
+        </div>
       </div>
     </div>
     <script src="../js/index.js"></script>
