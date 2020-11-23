@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script src="../vue.min.js"></script>
+  <title>Chap01</title>
+</head>
+<body>
+  <div id="app">
+    <div class="container">
+      <div class="row mt-4">
+        <form class="form form-inline">
+          <div class="form-group">
+            <label for="myName">氏名：</label>
+            <input type="text" id="myName" class="form-control" v-model="myName">
+          </div>
+          <strong class="m-3"><p>こんにちは、{{ myName}}さん！</p></strong>
+          <div class="form-group">
+            <label for="dog">犬</label>
+            <input type="radio" id="dog" value="犬" v-model="pet">
+            <br>
+            <label for="cat">猫</label>
+            <input type="radio" id="cat" value="猫" v-model="pet">
+            <br>
+            <label for="other">その他</label>
+            <input type="radio" id="other" value="その他" v-model="pet">
+          </div>
+          <div class="form-group">
+            <input ref="upfile" type="file" v-on:change="onchange">
+          </div>
+        </form>
+      </div>
+      <div class="row mt-4">
+        <form class="form">
+          <label for="mail">メールアドレス：</label>
+          <textarea id="mail" v-bind:value="mails.join(';')" v-on:input="mails=$event.target.value.split(';')"></textarea>
+        </form>
+        <ul>
+          <li v-for="mail in mails">
+            {{mail}}
+          </li>
+        </ul>
+      </div>
+      <div class="row mt-4">
+        <form>
+          <label for="showCheckBox">表示/非表示</label>
+          <input type="checkbox" id="showCheckBox" v-model="show">
+        </form>
+        <div class="showArea p-3" v-if="show">
+          <h3>RSSフィードについて</h3>
+          <p>WINGSでは、弊社執筆の書籍を販売しております。</p>
+        </div>
+        <div class="showArea p-3" v-else>
+          <h3>現在は、非表示状態です。</h3>
+        </div>
+      </div>
+      <div class="rwo my-3">
+        <template v-if="books.length">
+          <table class="table table-bordered table-hover">
+            <thead>
+              <tr class="bg-info text-white">
+                <th>ID</th>
+                <th>ISBN番号</th>
+                <th>書籍タイトル</th>
+                <th>価格</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(book, index) in books" v-bind:key="book">
+                <td>{{ index + 1 }}</td>
+                <td>{{ book.isbn }}</td>
+                <td>{{ book.title }}</td>
+                <td>{{ book.price }}円</td>
+                <td><button class="btn btn-danger w-75" v-on:click="delBook(index)">削除</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </template>
+      </div>
+      <div class="row my-3">
+        <form>
+          <label for="memo">メモ：</label>
+          <input type="text" id="memo" v-bind="attrs">
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
+<script>
+  let app = new Vue({
+    el: '#app',
+    data: {
+      myName: '匿名',
+      pet: '犬',
+      mails: [],
+      show: true,
+      books: [
+        {
+          isbn: '978-4-7981-5757-3',
+          title: 'JavaScript逆引きレシピ',
+          price: '2800'
+        },
+        {
+          isbn: '978-4-7981-5382-7',
+          title: '独習C#',
+          price: '3600'
+        }
+      ],
+      attrs: {
+        size: 20,
+        maxLength: 14,
+        required: true
+      }
+    },
+    methods: {
+      delBook: function (index) {
+        this.books.splice(index,1);
+      },
+
+      onchange: function() {
+        let file = this.$refs.upfile[0];
+        let data = new FormData();
+        data.append('upfile', file, file.name);
+
+        fetch('upfile.php', {
+          method: 'POST',
+          body: data,
+        })
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (text) {
+          this.message = text;
+        })
+        .catch(function (error) {
+          window.alert('Error：' + error.message);
+        })
+      }
+    },
+  });
+</script>
